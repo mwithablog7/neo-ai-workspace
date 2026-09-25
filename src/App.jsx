@@ -16,6 +16,7 @@ import { PROJECTS, getProject } from './data/projects'
 import { STATS, INSIGHT, WEEKS, formatCompact } from './data/analytics'
 import {
   generateResponse,
+  inferMode,
   starterForMode,
   validateInput,
 } from './engine/neoEngine'
@@ -122,12 +123,17 @@ export default function App() {
     setBusy(true)
     busyRef.current = true
 
+    // If the user didn't pick a mode explicitly, infer intent from their words
+    // ("Plan it" → Plan) and reflect it in the quick-action state.
+    const effectiveMode = mode === 'ask' ? inferMode(check.value) : mode
+    if (effectiveMode !== mode) setMode(effectiveMode)
+
     // Small, deliberate pause so the interaction feels like thinking —
     // capped low to stay snappy, and guarded against double submits.
     const t = setTimeout(() => {
       const result = generateResponse({
         input: check.value,
-        mode,
+        mode: effectiveMode,
         projectId: project?.id || null,
         projectName: project?.name || null,
       })
@@ -178,10 +184,11 @@ export default function App() {
       setError('')
       setBusy(true)
       busyRef.current = true
+      const effectiveMode = mode === 'ask' ? inferMode(text) : mode
       const t = setTimeout(() => {
         const result = generateResponse({
           input: check.value,
-          mode,
+          mode: effectiveMode,
           projectId: project?.id || null,
           projectName: project?.name || null,
         })
