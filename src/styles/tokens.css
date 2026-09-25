@@ -1,0 +1,57 @@
+/* NEO design tokens — dark primary interface, single accent colour. */
+:root {
+  /* Surfaces */
+  --bg: #0a0b0f;
+  --bg-raised: #101218;
+  --bg-panel: #14161d;
+  --bg-hover: #1a1d26;
+  --bg-input: #0d0e13;
+
+  /* Lines & shadows */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.5);
+
+  /* Text */
+  --text: #f2f3f7;
+  --text-dim: #a6abb9;
+  --text-faint: #808797;
+
+  /* Single accent: signal lime */
+  --accent: #c9f24d;
+  --accent-strong: #d9ff62;
+  --accent-ink: #11150a;
+  --accent-soft: rgba(201, 242, 77, 0.12);
+  --accent-line: rgba(201, 242, 77, 0.35);
+
+  /* Semantic */
+  --danger: #ff8a7a;
+  --danger-soft: rgba(255, 138, 122, 0.1);
+  --ok: #7fd8a4;
+
+  /* Type */
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono: 'SFMono-Regular', 'Consolas', 'Liberation Mono', Menlo, monospace;
+  --step--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.83rem);
+  --step-0: clamp(0.94rem, 0.91rem + 0.14vw, 1rem);
+  --step-1: clamp(1.1rem, 1.04rem + 0.3vw, 1.25rem);
+  --step-2: clamp(1.35rem, 1.22rem + 0.65vw, 1.7rem);
+  --step-3: clamp(1.7rem, 1.44rem + 1.3vw, 2.4rem);
+  --step-4: clamp(2rem, 1.6rem + 2vw, 3rem);
+
+  /* Space & shape */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --shell: 1120px;
+  --gutter: clamp(16px, 4vw, 32px);
+
+  /* Motion */
+  --speed: 160ms;
+  --speed-slow: 260ms;
+  --ease: cubic-bezier(0.32, 0.72, 0.35, 1);
+}
