@@ -53,9 +53,9 @@ export const STATS = [
 ]
 
 export const INSIGHT = {
-  title: 'Reach fell while engagement held — check distribution, not the content',
+  title: 'Reach has decreased while engagement rate has remained relatively stable',
   body:
-    'Reach is down 26% over the last four weeks, but engagement rate held and even edged up (4.2% → 4.6%), while posting volume fell from about 5.5 to 3.3 posts per week. When reach moves and engagement doesn’t, the usual culprit is distribution and cadence — format mix, timing, and how often you show up — not content quality. The people who saw the work still engaged with it.',
+    'Investigate distribution, posting frequency, and recent content formats before assuming audience interest has declined. Reach is down 26% over the last four weeks while engagement rate edged up (4.2% → 4.6%) and posting volume fell from about 5.5 to 3.3 posts per week — the people who saw the work still engaged with it.',
   ask:
     'Analyze my demo analytics: reach fell 26% while engagement stayed flat. What should I investigate first?',
 }

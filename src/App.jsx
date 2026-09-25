@@ -12,7 +12,7 @@ import {
   IconSpark,
   IconCheck,
 } from './components/icons'
-import { PROJECTS, getProject } from './data/projects'
+import { PROJECTS, RECENT_ACTIVITY, getProject } from './data/projects'
 import { STATS, INSIGHT, WEEKS, formatCompact } from './data/analytics'
 import {
   generateResponse,
@@ -30,9 +30,9 @@ const NAV = [
 ]
 
 const EXAMPLES = [
-  'My Instagram reach dropped this month. What should I investigate?',
-  'I have 3 weeks left on my final project. Plan it.',
-  'Draft a launch post for The Silk Whisk.',
+  'My social media engagement dropped this month. What should I investigate?',
+  'I need to organize a university project.',
+  'Give me three ideas for a social media campaign.',
 ]
 
 function readHashView() {
@@ -47,11 +47,15 @@ export default function App() {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [response, setResponse] = useState(null)
-  const [projectId, setProjectId] = useState('marketing-portfolio')
+  const [projectId, setProjectId] = useState('marketing-campaign')
 
   const inputRef = useRef(null)
   const responseRef = useRef(null)
   const busyRef = useRef(false)
+  // True only when the user explicitly picked a quick action (or an explicit
+  // mode button). An inferred mode is reflected in the UI but never sticks —
+  // the next free-form input gets its intent re-inferred from scratch.
+  const explicitMode = useRef(false)
   const timers = useRef([])
 
   const project = useMemo(() => getProject(projectId), [projectId])
@@ -124,8 +128,10 @@ export default function App() {
     busyRef.current = true
 
     // If the user didn't pick a mode explicitly, infer intent from their words
-    // ("Plan it" → Plan) and reflect it in the quick-action state.
-    const effectiveMode = mode === 'ask' ? inferMode(check.value) : mode
+    // ("Plan it" → Plan) and reflect it in the quick-action state. "Ask NEO"
+    // always infers, so picking it never freezes the mode.
+    const effectiveMode =
+      explicitMode.current && mode !== 'ask' ? mode : inferMode(check.value)
     if (effectiveMode !== mode) setMode(effectiveMode)
 
     // Small, deliberate pause so the interaction feels like thinking —
@@ -147,6 +153,7 @@ export default function App() {
 
   const handleModeChange = useCallback(
     (nextMode) => {
+      explicitMode.current = true
       setMode(nextMode)
       setError('')
       setView('home')
@@ -160,10 +167,20 @@ export default function App() {
     [project, input, focusInput],
   )
 
-  const handleSelectProject = useCallback((id) => {
-    // Re-selecting keeps a project active — the workspace always has context.
-    setProjectId(id)
-  }, [])
+  const handleSelectProject = useCallback(
+    (id) => {
+      // Re-selecting keeps a project active — the workspace always has context.
+      // If the composer is showing the old project's auto-filled starter,
+      // swap it for the new project's starter so the prompt never goes stale.
+      const prev = project
+      if (prev && input === starterForMode(mode, prev.id, prev.starters)) {
+        const next = getProject(id)
+        setInput(starterForMode(mode, next?.id, next?.starters))
+      }
+      setProjectId(id)
+    },
+    [project, input, mode],
+  )
 
   const openProject = useCallback((id) => {
     setProjectId(id)
@@ -184,7 +201,9 @@ export default function App() {
       setError('')
       setBusy(true)
       busyRef.current = true
-      const effectiveMode = mode === 'ask' ? inferMode(text) : mode
+      const effectiveMode =
+        explicitMode.current && mode !== 'ask' ? mode : inferMode(text)
+      if (effectiveMode !== mode) setMode(effectiveMode)
       const t = setTimeout(() => {
         const result = generateResponse({
           input: check.value,
@@ -203,6 +222,7 @@ export default function App() {
   )
 
   const handleAskInsight = useCallback(() => {
+    explicitMode.current = true
     setMode('analyze')
     setView('home')
     setInput(INSIGHT.ask)
@@ -370,7 +390,7 @@ export default function App() {
                       </ul>
                     </div>
                     <div>
-                      <h4 className="context__label">Example tasks</h4>
+                      <h4 className="context__label">Relevant next actions</h4>
                       <ul className="context__list context__list--tasks">
                         {project.tasks.map((item) => (
                           <li key={item}>{item}</li>
@@ -385,6 +405,52 @@ export default function App() {
               ) : null}
             </section>
 
+            <section className="section" aria-labelledby="home-activity-title">
+              <div className="section__head">
+                <div>
+                  <h2 className="section__title" id="home-activity-title">
+                    Recent activity
+                  </h2>
+                  <p className="section__sub">
+                    The latest moves across your projects — sample demo data.
+                  </p>
+                </div>
+                <button type="button" className="link" onClick={() => goto('projects')}>
+                  View projects <IconArrow className="link__icon" />
+                </button>
+              </div>
+              <ul className="feed">
+                {RECENT_ACTIVITY.map((item) => {
+                  const owner = getProject(item.projectId)
+                  const isActive = item.projectId === projectId
+                  return (
+                    <li
+                      key={item.id}
+                      className={`feed__item ${isActive ? 'feed__item--active' : ''}`}
+                    >
+                      <button
+                        type="button"
+                        className="feed__btn"
+                        title="Work in this project"
+                        onClick={() => handleSelectProject(item.projectId)}
+                      >
+                        <span className="feed__text">{item.text}</span>
+                        <span className="feed__meta">
+                          <span className="feed__project">
+                            {isActive ? (
+                              <IconCheck className="feed__check" />
+                            ) : null}
+                            {owner?.name}
+                          </span>
+                          <span className="feed__time">{item.time}</span>
+                        </span>
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            </section>
+
             <section className="section" aria-labelledby="home-demo-title">
               <div className="section__head">
                 <div>
@@ -392,7 +458,7 @@ export default function App() {
                     Demo analytics
                   </h2>
                   <p className="section__sub">
-                    Sample data for The Silk Whisk — clearly labelled, never live.
+                    Illustrative sample data — clearly labelled, never live.
                   </p>
                 </div>
                 <button
@@ -460,7 +526,7 @@ export default function App() {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="context__label">Example tasks</h3>
+                    <h3 className="context__label">Relevant next actions</h3>
                     <ul className="context__list context__list--tasks">
                       {project.tasks.map((item) => (
                         <li key={item}>{item}</li>
@@ -473,6 +539,7 @@ export default function App() {
                     type="button"
                     className="btn btn--primary"
                     onClick={() => {
+                      explicitMode.current = true
                       setMode('plan')
                       setInput(project.starters.plan)
                       setView('home')
@@ -486,6 +553,7 @@ export default function App() {
                     type="button"
                     className="btn btn--ghost"
                     onClick={() => {
+                      explicitMode.current = true
                       setMode('analyze')
                       setInput(project.starters.analyze)
                       setView('home')
@@ -507,8 +575,8 @@ export default function App() {
               <p className="eyebrow">Marketing analytics</p>
               <h1 className="hero__title">Demo analytics</h1>
               <p className="hero__sub">
-                Sample data for <strong>The Silk Whisk</strong>, last 8 weeks. This is
-                illustrative demo data — not a live account connection.
+                Eight weeks of illustrative sample data. This is demo content — not a
+                live account connection.
               </p>
               <span className="badge-demo">Demo data · sample only</span>
             </section>
@@ -554,7 +622,7 @@ export default function App() {
               <div className="insight__head">
                 <IconSpark className="insight__icon" />
                 <h2 className="insight__title" id="insight-title">
-                  NEO insight
+                  NEO Insight
                 </h2>
               </div>
               <h3 className="insight__headline">{INSIGHT.title}</h3>
@@ -629,7 +697,8 @@ export default function App() {
           <Logo size="sm" />
           <p className="footer__tag">Think clearly. Move forward.</p>
           <p className="footer__note">
-            NEO prototype · all projects and analytics on this page are sample demo data.
+            NEO prototype · all projects, activity, and analytics on this page are
+            sample demo data.
           </p>
         </div>
       </footer>

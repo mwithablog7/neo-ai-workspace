@@ -1,65 +1,66 @@
-// Demo projects — realistic sample content for the NEO prototype.
-// No lorem ipsum, no fake personas: believable work a real user might track.
+// Demo projects — generic sample content for the NEO prototype.
+// No personal brands, real clients, or identifying information:
+// just believable work a real user might track.
 
 export const PROJECTS = [
   {
-    id: 'marketing-portfolio',
-    name: 'Marketing Portfolio',
-    goal: 'Build a portfolio demonstrating marketing strategy and analytics.',
+    id: 'marketing-campaign',
+    name: 'Marketing Campaign',
+    goal: 'Plan and improve a digital marketing campaign.',
     context:
-      'Six campaign case studies being turned into one narrative for entry-level marketing roles. Two are drafted, the analytics screenshots still need exporting, and the structure changes every time a new case lands.',
-    status: 'Active · 2 of 6 cases drafted',
+      'A four-week product launch campaign across email and social. The calendar exists but the first week underperformed, so the plan is being reworked around what actually reached people.',
+    status: 'Active · week 2 of 4',
     activity: [
-      'Rewrote the opening of the “Silk Whisk launch” case study',
-      'Pulled 30-day reach numbers for the Instagram audit',
-      'Added a Results section to case study #2',
+      'Drafted three hook variants for the launch carousel',
+      'Pulled the 4-week reach summary',
+      'Reordered the week-2 calendar around email',
     ],
     tasks: [
-      'Export analytics screenshots for cases 3–6',
-      'Lock one case study template and reuse it',
-      'Publish the portfolio landing page',
+      'Compare the two launch hooks and pick one to reuse',
+      'Rewrite the week-3 posts around the winning format',
+      'Block 60 minutes to schedule everything at once',
     ],
     starters: {
-      ask: 'What’s the fastest useful next step for my Marketing Portfolio right now?',
+      ask: 'What’s the fastest useful next step for my marketing campaign right now?',
       analyze:
-        'Analyze which Marketing Portfolio case study is closest to publishable and what’s blocking it.',
-      plan: 'Plan the next 7 days for my Marketing Portfolio: three outcomes, blocked time, and one thing to cut.',
+        'Analyze why my campaign reach dipped in week 1 while engagement stayed steady.',
+      plan: 'Plan the next 7 days of my marketing campaign: three outcomes, blocked time, and one thing to cut.',
       create:
-        'Create a first draft for my Marketing Portfolio: one idea, the hook, and the first three steps.',
+        'Create a first draft for my campaign: one launch idea, the hook, and the first three steps.',
     },
   },
   {
-    id: 'the-silk-whisk',
-    name: 'The Silk Whisk',
-    goal: 'Grow an AI-powered cozy cooking content brand.',
+    id: 'content-strategy',
+    name: 'Content Strategy',
+    goal: 'Build a consistent content strategy and understand what performs.',
     context:
-      'A slow-cooking recipe brand with AI-assisted scripts and human testing. Publishing three times a week across two channels; reach slipped over the last month while saves stayed strong.',
+      'Posting three times a week across two formats with no real system behind it. Volume is steady, but it is unclear which formats build an audience and which ones just fill a calendar.',
     status: 'Active · posting 3× per week',
     activity: [
-      'Tested 4 hook variants on the pumpkin broth reel',
-      'Scheduled Tuesday’s recipe carousel',
-      'Drafted the 30-day content calendar',
+      'Tagged the last 12 posts by format and topic',
+      'Outlined next week’s posting calendar',
+      'Noted that carousels out-reached short videos',
     ],
     tasks: [
-      'Re-test the best hook in a new format',
-      'Batch-film two slow-cooker recipes',
-      'Reply to the 12 unanswered DMs',
+      'Rank the last 10 posts by saves, not likes',
+      'Choose one pillar topic and write 5 post ideas for it',
+      'Set a repeating 30-minute weekly planning slot',
     ],
     starters: {
-      ask: 'What’s the fastest useful next step for The Silk Whisk right now?',
+      ask: 'What’s the fastest useful next step for my content strategy right now?',
       analyze:
-        'Analyze why The Silk Whisk reach dropped this month while saves stayed steady.',
-      plan: 'Plan the next 7 days for The Silk Whisk: three outcomes, blocked time, and one thing to cut.',
+        'Analyze which of my content formats performs best and what I should do more of.',
+      plan: 'Plan the next 7 days of my content strategy: three outcomes, blocked time, and one thing to cut.',
       create:
-        'Create a first draft for The Silk Whisk: one recipe idea, the hook, and the first three steps.',
+        'Create a first draft for my content strategy: one series idea, the hook, and the first three steps.',
     },
   },
   {
-    id: 'university-final-project',
-    name: 'University Final Project',
-    goal: 'Develop and present a strong final academic project.',
+    id: 'university-project',
+    name: 'University Project',
+    goal: 'Organize research, ideas, tasks, and deliverables for an academic project.',
     context:
-      'A media-effects study on short-form video and attention, due in five weeks. The literature review is solid; the survey pilot still has 14 gaps and the presentation outline doesn’t exist yet.',
+      'A research project due in five weeks. The literature base is solid, but sources live in three places, the outline keeps changing, and the presentation does not exist yet.',
     status: 'Active · due in 5 weeks',
     activity: [
       'Sorted 38 sources into four themes',
@@ -67,19 +68,29 @@ export const PROJECTS = [
       'Booked a supervisor slot for Thursday',
     ],
     tasks: [
-      'Draft the methods section (90-minute block)',
-      'Fix pilot survey question 6',
+      'Draft the methods section in a 90-minute block',
+      'Merge the three source lists into one document',
       'Outline the 12-slide presentation',
     ],
     starters: {
-      ask: 'What’s the fastest useful next step for my final project right now?',
+      ask: 'What’s the fastest useful next step for my university project right now?',
       analyze:
-        'Analyze what’s weakest in my final project right now — methods, data, or presentation.',
-      plan: 'Plan the next 7 days for my final project: three outcomes, blocked time, and one thing to cut.',
+        'Analyze what’s weakest in my university project right now — methods, sources, or presentation.',
+      plan: 'Plan the next 7 days for my university project: three outcomes, blocked time, and one thing to cut.',
       create:
-        'Create a first draft for my final project presentation: the story, the slides, and the first three steps.',
+        'Create a first draft for my university project presentation: the story, the slides, and the first three steps.',
     },
   },
+]
+
+// Dashboard "Recent activity" — sample feed across the demo projects.
+export const RECENT_ACTIVITY = [
+  { id: 'a1', projectId: 'marketing-campaign', text: 'Drafted three hook variants for the launch carousel', time: '2h ago' },
+  { id: 'a2', projectId: 'content-strategy', text: 'Tagged the last 12 posts by format and topic', time: '5h ago' },
+  { id: 'a3', projectId: 'university-project', text: 'Sorted 38 sources into four themes', time: 'Yesterday' },
+  { id: 'a4', projectId: 'marketing-campaign', text: 'Pulled the 4-week reach summary', time: 'Yesterday' },
+  { id: 'a5', projectId: 'content-strategy', text: 'Outlined next week’s posting calendar', time: '2 days ago' },
+  { id: 'a6', projectId: 'university-project', text: 'Booked a supervisor slot for Thursday', time: '2 days ago' },
 ]
 
 export function getProject(id) {

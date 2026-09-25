@@ -421,9 +421,14 @@ export function classifyTopic(rawInput, mode) {
   return best
 }
 
-const PLAN_RE = /\b(plan|planning|schedule|roadmap|sequence|outline|calendar|next 7|this week|timeline|steps to)\b/i
-const CREATE_RE = /\b(write|draft|create|script|brainstorm|design|build a|post about|idea for|hooks|outline a)\b/i
-const ANALYZE_RE = /\b(analy[sz]e|why|what happened|diagnos|investigat|compare|dropped|decline|fell|understand the data|which one)\b/i
+// Stems (schedul, organiz, investigat…) intentionally drop the trailing \b so
+// they match inflections — \binvestigat\b would never match “investigate”.
+const PLAN_RE =
+  /\b(plans?|planned|planning|roadmaps?|sequences?|outlines?|calendars?|timelines?|next 7|this week|steps to)\b|\b(schedul|organiz|prioriti[sz]|break (it|this) down)/i
+const CREATE_RE =
+  /\b(write|draft|create|script|brainstorm|design|build a|post about|ideas? for|come up with|hooks?|outline a)\b/i
+const ANALYZE_RE =
+  /\b(why|what happened|compar\w*|drop\w*|fell|understand the data|which one|going down)\b|\b(analy[sz](e|is|ing)|diagnos|investigat|declin|decreas|worsen)/i
 
 export function inferMode(rawInput) {
   const text = String(rawInput || '')

@@ -33,6 +33,18 @@ npm run preview   # serve the production build locally
 
 The build uses relative asset paths (`base: './'`), so `dist/` works from any static host or subpath.
 
+## Deployment information
+
+The prototype is published with **GitHub Pages** using a GitHub Actions workflow:
+
+- **Live URL:** https://mwithablog7.github.io/neo-ai-workspace/
+- **Repository:** https://github.com/mwithablog7/neo-ai-workspace
+- **Workflow:** `.github/workflows/deploy.yml` — on every push to `main` it runs `npm ci` → `npm run build` → uploads `dist/` as a Pages artifact → deploys with `actions/deploy-pages`.
+
+Pages is configured with `build_type: workflow`, so no branch-pushing of build output is needed and `dist/` is never committed. To redeploy, push to `main`; the run completes in under a minute and the site updates after the run finishes (browsers may cache the HTML shell for a few minutes — append `?v=2` to the URL to bypass).
+
+Any static host works unchanged because assets use relative paths: build with `npm run build`, then serve `dist/`.
+
 ## Structure
 
 ```
@@ -48,8 +60,9 @@ neo-ai-workspace/
     │   └── neoEngine.js       # local response engine: validation, topic/mode
     │                          # classification, structured answer composition
     ├── data/
-    │   ├── projects.js        # 3 demo projects (goal, context, activity, tasks)
-    │   └── analytics.js       # 8 weeks of demo metrics + insight copy
+    │   ├── projects.js        # 3 generic demo projects (goal, context, activity,
+    │   │                      #   next actions) + dashboard recent-activity feed
+    │   └── analytics.js       # 8 weeks of demo metrics + NEO Insight copy
     ├── components/
     │   ├── Logo.jsx           # NEO wordmark (inline SVG)
     │   ├── icons.jsx          # stroke icon set (inline SVG)
@@ -68,10 +81,10 @@ neo-ai-workspace/
 
 | Area | What works |
 |---|---|
-| **Dashboard** | Logo, welcome, hero input above the fold, 4 quick actions, helper copy, projects, demo analytics preview |
+| **Dashboard** | Logo, welcome, hero input above the fold, 4 quick actions, helper copy, projects, recent activity feed, demo analytics preview |
 | **NEO workspace** | Real input → structured response, adapted to keywords, intent, and active project. Follow-up chips, example prompts |
 | **Quick actions** | Ask NEO / Analyze / Plan / Create — each sets the mode, updates the placeholder, and pre-fills a project-aware starter prompt |
-| **Projects** | 3 realistic projects; selecting one updates the card, context panel, composer context chip, and future responses |
+| **Projects** | 3 generic demo projects (Marketing Campaign, Content Strategy, University Project); selecting one updates the card, context panel, “Working in: …” indicator, and future responses. Each shows goal, context, recent activity, and relevant next actions |
 | **Analytics** | Clearly-labelled demo data: reach, engagement rate, followers, content published; bar + line chart; NEO insight; accessible data table |
 | **Navigation** | Home / Projects / Analytics — desktop nav, mobile bottom tab bar, URL hash sync, browser back/forward |
 | **Error handling** | Empty input, symbol/number-only input, 600-char cap, double-submit guard — all handled with accessible messages, never raw errors |
@@ -86,7 +99,7 @@ No external fonts, images, APIs, or analytics. Hand-rolled chart (no chart libra
 
 ## Demo data
 
-All projects and analytics are **sample demo data**, labelled as such in the UI. NEO is a prototype: nothing here connects to a live account or external service.
+All projects, recent activity, and analytics are **sample demo data**, labelled as such in the UI. The demo projects are intentionally generic (Marketing Campaign, Content Strategy, University Project) — no personal brands, real clients, or identifying information. NEO is a prototype: nothing here connects to a live account or external service.
 
 ## Tech
 

@@ -19,7 +19,7 @@ export default function ResponseCard({ response, onFollowUp }) {
           <span className="chip">{MODES[response.mode].label}</span>
           <span className="chip chip--quiet">{response.topicLabel}</span>
           {response.projectName ? (
-            <span className="chip chip--quiet">{response.projectName}</span>
+            <span className="chip chip--quiet">Working in: {response.projectName}</span>
           ) : null}
         </div>
       </header>

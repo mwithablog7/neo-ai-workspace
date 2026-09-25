@@ -164,6 +164,77 @@
   margin-top: 20px;
 }
 
+/* ---------- Recent activity feed ---------- */
+.feed {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+}
+
+.feed__btn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.feed__btn:hover {
+  border-color: var(--accent);
+}
+
+.feed__item--active .feed__btn {
+  background: var(--bg-panel);
+  border-color: var(--accent);
+}
+
+.feed__text {
+  font-size: var(--step--1);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.feed__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.feed__project {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.feed__item--active .feed__project {
+  color: var(--accent);
+}
+
+.feed__check {
+  width: 13px;
+  height: 13px;
+}
+
+.feed__time {
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
 /* ---------- Stats ---------- */
 .stat-grid {
   display: grid;

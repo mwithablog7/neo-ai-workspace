@@ -107,7 +107,7 @@ export default function Composer({
           {projectLabel ? (
             <span className="composer__context">
               {' '}
-              Context: <strong>{projectLabel}</strong>
+              Working in: <strong>{projectLabel}</strong>
             </span>
           ) : null}
         </p>
